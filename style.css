@@ -153,15 +153,15 @@ footer .footer-map {
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  border: 2px solid #333; /* גבול כהה (למשל שחור כהה או אפור) */
+  border: 2px solid #b7986b; /* גבול כהה (למשל שחור כהה או אפור) */
   background-color: #fff; /* רקע לבן בתוך העיגול */
   cursor: pointer;
   transition: background-color 0.3s, transform 0.3s;
 }
 
 .embla__dot.active {
-  background-color: #007bff; /* צבע כחול לעיגול הפעיל (ACCENT) */
   transform: scale(1.2);
+  background-color: #b7986b;
 }
 
 
