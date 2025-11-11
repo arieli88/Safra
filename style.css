@@ -85,7 +85,7 @@ nav .hamburger { display: none; font-size: 1.6rem; cursor: pointer; }
 .cta-btn:hover { background-color: #8b5742; transform: scale(1.05); }
 
 /* Sections */
-section { padding: 100px 10% 80px; opacity: 0; transform: translateY(50px); transition: 1s ease; text-align: center; }
+section { padding: 50px 10% 40px; opacity: 0; transform: translateY(50px); transition: 1s ease; text-align: center; }
 section.visible { opacity: 1; transform: translateY(0); }
 section h2 { font-size: 2rem; margin-bottom: 1rem; }
 section p { font-size: 1.05rem; max-width: 850px; margin: auto; line-height: 1.7; }
