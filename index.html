@@ -1,132 +1,274 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>בית מדרש ספרא</title>
-  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="./lib/embla.css">
-  <link rel="icon" type="image/png" href="./favicon (1).png">
-  <link rel="stylesheet" href="https://unpkg.com/embla-carousel/embla.min.css">
-  <script src="https://unpkg.com/embla-carousel@8.6.0/embla-carousel.umd.min.js"></script>
-
+  <meta name="description" content="בית מדרש ספרא – מקום של לימוד, שיח וחיבור לחיילים ולחיילות בלב תל אביב. שיעורי תורה, שיח פילוסופי ופעילויות קהילתיות.">
+<meta name="keywords" content="בית מדרש, ספרא, חיילים, חיילות, תל אביב, לימוד תורה, שיח, קהילה">
+<meta name="robots" content="index, follow">
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;600;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="./lib/indicator.css" />
+  <link rel="icon" type="image/png" href="./favicon-backup.jpg" />
 </head>
-<body>
 
+<body>
   <!-- Navbar -->
-<div id="navbar"></div>
-    <script>
-        fetch('./lib/navbar.html')
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById('navbar').innerHTML = data;
-        });
-    </script>
+  <div id="navbar"></div>
 
   <!-- HERO -->
   <div class="hero">
-    <img src="./images/class.jpg" class="parallax-img active" alt="חיילים לומדים תורה">
-    <img src="./images/class2.jpg" class="parallax-img" alt="שיעור בבית מדרש ספרא">
-    <img src="./images/flayer2.jpg" class="parallax-img" alt="תפילה ולימוד">
+    <img src="./images/class.jpg" class="parallax-img active" alt="חיילים לומדים תורה" />
+    <!-- <img src="./images/class2.jpg" class="parallax-img" alt="שיעור בבית מדרש ספרא"> -->
+    <img src="./images/flayer2.jpg" class="parallax-img" alt="תפילה ולימוד" />
 
-    <!-- HERO CARD -->
-    <div class="hero-content">
-      <h1><i class="bi bi-lightning-charge-fill accent"></i> ספרא – זה הזמן לעצור רגע. ללמוד. להתחבר.</h1>
-      <p>בית מדרש ספרא – רגע של נשמה באמצע השירות.<br> מקום של לימוד, שיח וחיבור לחיילים ולחיילות בלב תל אביב.</p>
-      <button class="cta-btn" data-target="about">גלו עוד על ספרא</button>
+  </div>
+  <!-- HERO CARD -->
+  <div class="hero-content">
+    <h1>
+      <i class="bi bi-lightning-charge-fill accent"></i> ספרא – זה הזמן
+      לעצור רגע. ללמוד. להתחבר.
+    </h1>
+    <p>
+      בית מדרש ספרא – רגע של נשמה באמצע השירות.<br />
+      מקום של לימוד, שיח וחיבור לחיילים ולחיילות בלב תל אביב.
+    </p>
+    <button class="cta-btn" data-target="about">גלו עוד על ספרא</button>
+    <!-- אינדיקטור של אנימציה -->
+    <div class="scroll-indicator">
+      <div class="icon-scroll"></div>
+      <div class="chevron-container">
+        <div class="chevron"></div>
+        <div class="chevron"></div>
+        <div class="chevron"></div>
+      </div>
     </div>
+
   </div>
 
   <!-- ABOUT -->
-  <section id="about">
-    <h2>מה זה בית מדרש ספרא?</h2>
-    <p>בית מדרש "ספרא" הוא מקום פתוח לחיילות ולחיילים – דתיים, חילונים וכולם באמצע – שמחפשים רגע של משמעות,
-      חיבור וקהילה. המפגשים מתקיימים בלב תל אביב וכוללים לימוד, ארוחת ערב טובה ושיח בגובה העיניים.  
-      בואו לטעום משהו אחר, אנושי ואמיתי.</p>
-      <br>
-      <p>בימי ראשון ורביעי בשעה 19:00 ייערכו שיעורי "ספרא" – לימוד תורני.
-        <br>
-בימי שני בשעה 19:00 יתקיימו שיעורי "משב רוח" – לימוד פילוסופי תורני.</p>
+  <section id="about" style="padding: 100px 10% 50px;">
+    <h2 id="about2">מה זה בית מדרש ספרא?</h2>
+    <p>
+      בית מדרש "ספרא" הוא מקום פתוח לחיילות ולחיילים – דתיים, חילונים וכולם
+      באמצע – שמחפשים רגע של משמעות, חיבור וקהילה. המפגשים מתקיימים בלב תל
+      אביב וכוללים לימוד, ארוחת ערב טובה ושיח בגובה העיניים. בואו לטעום משהו
+      אחר, אנושי ואמיתי.
+    </p>
+    <br />
+    <!-- <p>
+      בימי ראשון ורביעי בשעה 19:00 ייערכו שיעורי "ספרא" – לימוד תורני.
+      <br />
+      בימי שני בשעה 19:00 יתקיימו שיעורי "משב רוח" – לימוד פילוסופי תורני.
+    </p> -->
+
+    <div class="responsive-images">
+      <img src="./images/flayer2.jpg" alt="ספרא" />
+      <img src="./images/flayer4.jpg" alt="משב רוח" />
+    </div>
+
+
+  </section>
+  <!-- קטגוריות - Two Columns Section -->
+  <!-- <section id="categories">
+    <h2 style="text-align: center; margin-bottom: 30px">קטגוריות</h2>
+    <div class="container">
+      <div class="column">
+        <h3>קטגוריה ראשונה</h3>
+        <p>
+          כאן תוכל להוסיף תוכן רלוונטי לקטגוריה הראשונה. טקסט, תיאור, או כל
+          דבר שתרצה.
+        </p>
+      </div>
+      <div class="column">
+        <h3>קטגוריה שנייה</h3>
+        <p>
+          תוכן עבור הקטגוריה השנייה, הסבר או תיאור שונה מהראשונה, או כל מידע
+          נוסף.
+        </p>
+      </div>
+    </div>
+  </section>
+   -->
+
+
+  <!-- קהילות - Two Columns Section -->
+  <section id="community" class="py-20 bg-white">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 style="text-align: center; margin-bottom: 30px; font-size: 2.5rem; font-weight: 800; color:#2D1F18;">
+        הצטרפו לקהילה שלנו
+      </h2>
+
+      <div class="container"
+        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+
+        <!-- קהילה ראשונה ספרא-->
+        <div class="column"
+          style="padding: 2rem; background: linear-gradient(to bottom right, #F5E6C8, #F9F6F3); border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center;">
+          <div class="category-header" style="margin-bottom: 1.5rem;">
+            <!-- <img src="./images/book-icon.png" alt="שיעורי ספרא" style="width: 64px; height: 64px; margin-bottom: 1rem;"> -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-book"
+              viewBox="0 0 16 16">
+              <path
+                d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783" />
+            </svg>
+            <h3 style="font-size: 1.8rem; font-weight: 700; margin-bottom: 0.5rem; color:#2D1F18;">שיעורי ספרא</h3>
+            <p style="color: rgba(45,31,24,0.7); margin-bottom:0.5rem;">לימוד תורני עמוק</p>
+            <p style="font-size:0.9rem; color: rgba(45,31,24,0.6);">ימי ראשון ורביעי | 19:00</p>
+          </div>
+
+          <p style="color:#2D1F18; margin-bottom:1rem;">
+            לימוד מעמיק בתורה, הלכה ומחשבה יהודית.<br>
+            מתאים לכל הרמות.
+          </p>
+
+
+          <button class="whatsapp-btn bi bi-whatsapp" onclick="openWhatsApp('safra')"
+            style="width:100%; background-color:#25D366; color:white; padding:1rem; font-size:1rem; border:none; border-radius:12px; cursor:pointer; transition:0.3s;">
+            הצטרפו לקבוצת WhatsApp - ספרא
+          </button>
+
+          <!-- <img src="./images/flayer2.jpg" alt="ספרא" style="
+            max-height: 260px;
+            margin-top: 20px;
+            width: auto;
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+          " onmouseover="this.style.transform='scale(1.05)';" onmouseout="this.style.transform='scale(1)'" /> -->
+
+        </div>
+
+        <!-- קהילה שנייה משב רוח -->
+        <div class="column"
+          style="padding: 2rem; background: linear-gradient(to bottom right, #F5E6C8, #F9F6F3); border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center;">
+          <div class="category-header" style="margin-bottom: 1.5rem;">
+            <!-- <img src="./images/users-icon.png" alt="משב רוח" style="width: 64px; height: 64px; margin-bottom: 1rem;"> -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-book-half"
+              viewBox="0 0 16 16">
+              <path
+                d="M8.5 2.687c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783" />
+            </svg>
+
+            <h3 style="font-size: 1.8rem; font-weight: 700; margin-bottom: 0.5rem; color:#2D1F18;">משב רוח</h3>
+            <p style="color: rgba(45,31,24,0.7); margin-bottom:0.5rem;">פילוסופיה יהודית עכשווית</p>
+            <p style="font-size:0.9rem; color: rgba(45,31,24,0.6);">ימי שני | 19:00</p>
+          </div>
+
+          <p style="color:#2D1F18; margin-bottom:1rem;">
+            שיח פילוסופי-תורני על נושאים רלוונטיים לחיים המודרניים.
+          <br><br>
+          </p>
+          <button class="whatsapp-btn bi bi-whatsapp" onclick="openWhatsApp('mashav')"
+            style="width:100%; background-color:#25D366; color:white; padding:1rem; font-size:1rem; border:none; border-radius:12px; cursor:pointer; transition:0.3s;">
+            הצטרפו לקבוצת WhatsApp - משב רוח
+          </button>
+
+          <!-- <img src="./images/flayer4.jpg" alt="ספרא" style="
+            max-height: 260px;
+            margin-top: 20px;
+            width: auto;
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+          " onmouseover="this.style.transform='scale(1.05)';" onmouseout="this.style.transform='scale(1)'" /> -->
+
+        </div>
+      </div>
+
+      <div style="margin-top: 3rem; text-align:center;">
+        <p style="color: rgba(45,31,24,0.7); font-size:1rem; margin-bottom:1rem;">
+          💡 הצטרפו לקבוצת WhatsApp שלנו וקבלו עדכונים על שיעורים, אירועים ופעילויות
+        </p>
+        <a href="./Pages/Contacts.html">
+          <button
+            style="border:2px solid #D4AF37; color:#2D1F18; background:none; padding:0.75rem 1.5rem; border-radius:12px; cursor:pointer; transition:0.3s;">
+            פגשו את המרצים שלנו
+          </button>
+        </a>
+      </div>
+    </div>
   </section>
 
   <!-- HISTORY -->
   <section id="history">
     <h2>היסטוריית המקום</h2>
     <p>
-      בית מדרש ספרא הוקם בשנת 2018 מתוך רצון לתת לחיילים ולחיילות מקום מפלט מהשגרה הצבאית.
-      המייסדים רצו ליצור מרחב פתוח ומקבל, בו כל אחד יכול למצוא את מקומו.
-      לאורך השנים התקיימו במקום מאות שיעורים, ערבי שיח והפעלות, כאשר המטרה היא תמיד ליצור חוויה אמיתית ומשמעותית.
+      בית מדרש ספרא הוקם בשנת 2018 מתוך רצון לתת לחיילים ולחיילות מקום מפלט
+      מהשגרה הצבאית. המייסדים רצו ליצור מרחב פתוח ומקבל, בו כל אחד יכול למצוא
+      את מקומו. לאורך השנים התקיימו במקום מאות שיעורים, ערבי שיח והפעלות, כאשר
+      המטרה היא תמיד ליצור חוויה אמיתית ומשמעותית.
     </p>
-    <img src="./images/אמונה-בציבוריות-תשרי-1-1024x1024.b197b0.webp" alt="היסטוריה של בית מדרש ספרא" loading="lazy" style="max-height: 260px">
+    <img src="./images/אמונה-בציבוריות-תשרי-1-1024x1024.b197b0.webp" alt="היסטוריה של בית מדרש ספרא" loading="lazy"
+      style="max-height: 260px" />
   </section>
 
-  <!-- GALLERY EMBLA CAROUSEL -->
-<section id="gallery">
-  <h2>תמונות נוספות</h2>
-  <div class="embla">
-    <div class="embla__viewport">
-      <div class="embla__container">
-        <div class="embla__slide"><img src="./images/class2.webp" alt="תמונה1" loading="lazy"></div>
-        <div class="embla__slide"><img src="./images/building.jpg" alt="תמונה2" loading="lazy"></div>
-        <div class="embla__slide"><img src="./images/students.jpg" alt="תמונה3" loading="lazy"></div>
-        <div class="embla__slide"><img src="./images/students2.jpg" alt="תמונה4" loading="lazy"></div>
-        <div class="embla__slide"><img src="./images/building3.jpg" alt="תמונה5" loading="lazy"></div>
-      </div>
-    </div>
-    <button class="embla__button embla__button--prev">❮</button>
-    <button class="embla__button embla__button--next">❯</button>
-    <div class="embla__dots"></div>
-  </div>
-</section>
-
-
-
+  <!-- GALLERY CAROUSEL -->
+  <section id="gallery" style="padding: 0px 10% 50px;">
+    <h2>תמונות נוספות</h2>
+    <div id="carousel"></div>
+  </section>
 
   <!-- FOOTER -->
-<!-- FOOTER -->
-<footer id="contact">
-  <div class="footer-content">
-    <div class="footer-info">
-      <h3>בית מדרש ספרא</h3>
-      <p>📍 בית אמונה, דרך השלום 11, תל אביב</p>
-      <p>📞 050-9326926 | ✉️ info@safra.org.il</p>
-      <div class="links">
-        <a href="#about">אודות</a>
-        <a href="#history">היסטוריה</a>
-        <a href="#gallery">תמונות</a>
-        <a href="#">לוח מפגשים</a><br>
-        <a href="./Pages/Contacts.html">פרטים נוספים</a>
-      </div>
-    </div>
-    <div class="footer-map">
-      <iframe 
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3381.336213450721!2d34.79492181527942!3d32.07222548098015!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x151d4ba20dda7edd%3A0x4173467d204229b9!2sHaShalom%20Rd%2011%2C%20Tel%20Aviv-Jaffa!5e0!3m2!1sen!2sil!4v1700000000000!5m2!1sen!2sil" 
-        width="250" 
-        height="150" 
-        style="border:0;" 
-        allowfullscreen="" 
-        loading="lazy" 
-        referrerpolicy="no-referrer-when-downgrade">
-      </iframe>
-    </div>
-  </div>
-  <p style="opacity:0.6; font-size:0.8rem;">© 2025 בית מדרש ספרא. כל הזכויות שמורות.</p>
-</footer>
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="footer-info">
+                <h3>בית מדרש ספרא</h3>
+                <p>📍 בית אמונה, דרך השלום 11, תל אביב</p>
+                <p>📞 050-9326926 | ✉️ info@safra.org.il</p>
+            </div>
+            <div class="footer-links">
+                <h3>קישורים מהירים</h3>
+                <a href="#about2">אודות</a><br>
+                <a href="#history">היסטוריה</a><br>
+                <a href="#community">קהילות</a><br>
+                <a href="#gallery">תמונות</a><br>
+                <a href="./Pages/Contacts.html">צרו קשר</a><br>
+                <a href="https://www.instagram.com/beit_midrash_safra/">אינסטגרם</a>
+            </div>
+            <div class="footer-map">
+                <h3>מיקום</h3>
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3381.336213450721!2d34.79492181527942!3d32.07222548098015!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x151d4ba20dda7edd%3A0x4173467d204229b9!2sHaShalom%20Rd%2011%2C%20Tel%20Aviv-Jaffa!5e0!3m2!1sen!2sil!4v1700000000000!5m2!1sen!2sil"
+                    width="250" height="150" style="border: 0" allowfullscreen="" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
 
+        </div>
+        <p style="opacity: 0.6; font-size: 0.8rem; text-align:center;">
+            © 2025 בית מדרש ספרא. כל הזכויות שמורות.
+        </p>
+    </footer>
 
-<!-- Embla CSS -->
-<link rel="stylesheet" href="./lib/embla.css">
-
-<!-- Embla JS -->
- <script src="https://unpkg.com/embla-carousel@8.6.0/embla-carousel.umd.js"></script>
- <script src="https://unpkg.com/embla-carousel@8.6.0/embla-carousel.umd.min.js"></script>
-
-<script src="./lib/embla-carousel.min.js"></script>
-<script src="./lib/EmblaCarouselArrowButtons.js"></script>
-<script src="./lib/EmblaCarouselDotButton.js"></script>
-<script src="./script.js"></script>
-
+  <script src="./lib/carousel.js" defer></script>
+  <script src="./script.js" defer></script>
+  <script defer>
+    document.addEventListener("DOMContentLoaded", () => {
+      createCarousel(
+        "#carousel",
+        [
+          "./images/flayer2.jpg",
+          "./images/flayer4.jpg",
+          "./images/class.jpg",
+          "./images/class2.webp",
+          "./images/flayer2.jpg",
+        ],
+        {
+          autoplay: true,
+          delay: 3000,
+          roundCorner: "15px",
+          gap: 20,
+        }
+      );
+    });
+  </script>
 </body>
+
 </html>

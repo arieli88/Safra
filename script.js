@@ -20,11 +20,31 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* ================= SIDE NAV / HAMBURGER ================= */
-  const hamburger = document.querySelector('.hamburger');
-  const sideNav = document.getElementById('sideNav');
-  const closeBtn = document.querySelector('.close-btn');
-  hamburger.addEventListener('click', () => sideNav.classList.add('active'));
-  closeBtn.addEventListener('click', () => sideNav.classList.remove('active'));
+  fetch('../lib/navbar.html')
+    .then(r => r.text())
+    .then(html => {
+      document.getElementById('navbar').innerHTML = html;
+      initHamburger();
+    });
+
+  function initHamburger() {
+    const hamburger = document.querySelector('.hamburger');
+    const sideNav = document.getElementById('sideNav');
+    const closeBtn = document.querySelector('.close-btn');
+    if (!hamburger || !sideNav || !closeBtn) return;
+
+    hamburger.onclick = e => { e.stopPropagation(); sideNav.classList.add('active'); };
+    closeBtn.onclick = () => sideNav.classList.remove('active');
+
+    document.onclick = e => {
+      if (sideNav.classList.contains('active') &&
+        !sideNav.contains(e.target) &&
+        !hamburger.contains(e.target)) {
+        sideNav.classList.remove('active');
+      }
+    };
+  }
+
 
   /* ================= CTA BUTTONS SMOOTH SCROLL ================= */
   document.querySelectorAll('.cta-btn').forEach(btn => {
@@ -36,48 +56,18 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
+  //===מסדר את המיקום של כפתורי התזוזה בדעיוק לחצי מהתמונה====
+// בחר את שני הכפתורים
+const btn1 = document.querySelector('#carousel > div:nth-child(2) > button:nth-child(1)');
+const btn2 = document.querySelector('#carousel > div:nth-child(2) > button:nth-child(2)');
 
-  /* ================= EMBLA CAROUSEL ================= */
-  const emblaNode = document.querySelector('.embla');
-  const viewport = emblaNode.querySelector('.embla__viewport');
-  const embla = EmblaCarousel(viewport, {
-    loop: true,
-    rtl: true,
-    skipSnaps: false,
-    align: 'start',
-    containScroll: 'trimSnaps'
-  });
+// הגדר margin ל-0
+if (btn1) btn1.style.margin = '0';
+if (btn2) btn2.style.margin = '0';
 
-  // Arrow buttons
-  const prevBtn = emblaNode.querySelector('.embla__button--prev');
-  const nextBtn = emblaNode.querySelector('.embla__button--next');
-  prevBtn.addEventListener('click', () => embla.scrollPrev());
-  nextBtn.addEventListener('click', () => embla.scrollNext());
 
-  // Dots
-  const dotsContainer = emblaNode.querySelector('.embla__dots');
-  const slides = embla.slideNodes();
-  slides.forEach((_, idx) => {
-    const dot = document.createElement('button');
-    dot.classList.add('embla__dot');
-    dot.addEventListener('click', () => embla.scrollTo(idx));
-    dotsContainer.appendChild(dot);
-  });
-  const dots = Array.from(dotsContainer.children);
-  const setActiveDot = () => {
-    const selectedIdx = embla.selectedScrollSnap();
-    dots.forEach((dot, idx) => dot.classList.toggle('active', idx === selectedIdx));
-  };
-  embla.on('select', setActiveDot);
-  embla.on('init', setActiveDot);
-  setActiveDot();
-
-  // Autoplay איטי
-  const autoplay = () => {
-    embla.scrollNext();
-    setTimeout(autoplay, 6000); // 6 שניות בין תמונות
-  };
-  autoplay();
+const slides = document.querySelectorAll('#carousel .slide');
+const viewport = document.getElementById('carousel'); // כנראה צריך עבור العرض של ה-carousel
 
   // Responsive slide width + fix תמונות גבוהות
   const resizeSlides = () => {
@@ -100,3 +90,68 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('resize', resizeSlides);
 
 });
+const heroContent = document.querySelector('.hero-content');
+const aboutSection = document.getElementById('about');
+
+function positionHeroContent() {
+  const heroContent = document.querySelector('.hero-content');
+  const about = document.getElementById('about');
+  if (!heroContent || !about) return;
+
+  const aboutTop = about.offsetTop;
+  const heroHeight = heroContent.offsetHeight;
+
+  heroContent.style.top = `${aboutTop - heroHeight / 2}px`;
+}
+
+// הפעלה **מיידית**
+positionHeroContent();
+
+// עדכון בעת שינוי גודל חלון
+window.addEventListener('resize', positionHeroContent);
+
+
+  const addNewImagesToLightbox = () => {
+    const lb = document.querySelector('body > div[role="dialog"]');
+    const lbImg = lb ? lb.querySelector('img') : null;
+    const newGalleryImages = document.querySelectorAll('.responsive-images img');
+
+    if (!lb || !lbImg || newGalleryImages.length === 0) {
+      // אם עדיין לא נוצר ה-lightbox, ננסה שוב אחרי 100ms
+      setTimeout(addNewImagesToLightbox, 100);
+      return;
+    }
+
+    // מוסיפים אירועים לכל תמונה חדשה
+    newGalleryImages.forEach(img => {
+      img.addEventListener('click', (e) => {
+        lbImg.src = e.target.src;
+        lb.style.opacity = "1";
+        lb.style.pointerEvents = "auto";
+        if (typeof stopAutoplay === 'function') stopAutoplay();
+      });
+    });
+
+    lb.addEventListener('click', () => {
+      lb.style.opacity = "0";
+      lb.style.pointerEvents = "none";
+      if (typeof startAutoplay === 'function') startAutoplay();
+    });
+  };
+
+  addNewImagesToLightbox(); // הפעלה
+
+  //update whatsapp links
+
+  function openWhatsApp(group) {
+
+    // קישורים מוצפנים ב-Base64 כדי לא להופיע בקוד HTML
+    const links = {
+      safra: "aHR0cHM6Ly9jaGF0LndoYXRzYXBwLmNvbS9ETVYxNVVZMDhCTzlIQzVUa2JiQlQy",
+      mashav: "aHR0cHM6Ly9jaGF0LndoYXRzYXBwLmNvbS9JYWg2QWwyNzFHdjFVYlRGYVczRFI2"
+    };
+
+    const decoded = atob(links[group]);  // פענוח
+    window.open(decoded, "_blank");      // פתיחה
+  }
+
