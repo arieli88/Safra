@@ -1,0 +1,298 @@
+/* accessibility.css - Consolidated & Optimized */
+
+/* =========================================
+   1. Core Widget Styles
+   ========================================= */
+
+/* Visually hidden for screen readers */
+.sr-only {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0); border: 0;
+}
+
+/* Root container */
+#accessibility-root {
+  position: fixed;
+  z-index: 2147483647; /* very top */
+  bottom: 16px;
+  right: 16px;
+  /* display: flex; */
+  flex-direction: column; /* Panel above FAB */
+  align-items: flex-end;
+  gap: 10px;
+  font-family: system-ui, -apple-system, "Heebo", "Segoe UI", Roboto, Arial, sans-serif;
+  pointer-events: none; /* Allows clicking through empty space */
+}
+
+/* Floating Action Button (FAB) */
+.acc-fab {
+  pointer-events: auto;
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, var(--accent, #a06c50), var(--button, #a06c50));
+  color: #fff;
+  border: none;
+  display: grid; place-items: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .28);
+  cursor: pointer;
+  font-weight: 700;
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+.acc-fab:active { transform: scale(.96); }
+.acc-fab:focus { outline: 3px solid rgba(160, 108, 80, 0.18); }
+
+/* Main Panel */
+.acc-panel {
+  pointer-events: auto;
+  width: 420px;
+  max-width: calc(100vw - 28px);
+  background: linear-gradient(180deg, #ffffff, #fbfbfb);
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 22px 48px rgba(0, 0, 0, 0.35);
+  display: none; opacity: 0;
+  transform: translateY(8px) scale(.995);
+  transition: opacity .18s ease, transform .18s ease;
+  max-height: 86vh;
+  overflow-y: hidden; /* Auto scroll on mobile override below */
+}
+
+/* Panel Open State */
+.acc-panel.open {
+  display: block; opacity: 1; transform: none;
+}
+
+/* Panel Header */
+.acc-header {
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 10px; margin-bottom: 8px;
+}
+.acc-title { font-weight: 800; font-size: 1rem; color: var(--text-dark, #2d1f18); }
+.acc-close, .acc-reset { background: transparent; border: none; cursor: pointer; color: #444; font-size: 1.1rem; }
+
+/* Controls Container */
+.acc-controls {
+  display: flex; flex-wrap: wrap; gap: 10px;
+  align-items: flex-start; justify-content: flex-start;
+  padding-bottom: 8px;
+}
+
+/* Control Tile */
+.acc-tile {
+  background: #fff;
+  border-radius: 10px;
+  padding: 10px;
+  display: flex; gap: 10px; align-items: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  cursor: pointer; user-select: none;
+  pointer-events: auto;
+  min-width: 120px;
+flex: 1 1 calc(50% - 12px); /* שינוי מ-33.333% ל-50% (2 עמודות) */  box-sizing: border-box;
+}
+.acc-tile .icon {
+  min-width: 44px; min-height: 44px;
+  display: grid; place-items: center;
+  border-radius: 8px;
+  color: #fff;
+  background: linear-gradient(180deg, var(--accent, #a06c50), var(--button, #a06c50));
+  font-weight: 700;
+}
+.acc-tile .meta { display: flex; flex-direction: column; gap: 2px; }
+.acc-tile .label { font-weight: 700; font-size: 0.92rem; color: var(--text-dark, #2d1f18); }
+.acc-tile .small { font-size: 0.78rem; color: rgba(0, 0, 0, 0.52); }
+
+/* Full Width Rows */
+.acc-row { flex: 1 1 100%; display: flex; gap: 8px; align-items: center; }
+.acc-row .btn { padding: 8px 10px; border-radius: 8px; border: none; cursor: pointer; background: #f3f3f3; }
+
+/* Toggle Switch Visual */
+.acc-toggle {
+  width: 44px; height: 24px; border-radius: 20px; background: #ddd; position: relative;
+}
+.acc-toggle::after {
+  content: ""; position: absolute; left: 4px; top: 3px;
+  width: 18px; height: 18px; border-radius: 50%; background: #fff;
+  transition: transform .18s;
+}
+.acc-toggle.active { background: linear-gradient(90deg, var(--accent, #a06c50), var(--button, #a06c50)); }
+.acc-toggle.active::after { transform: translateX(20px); }
+
+
+/* =========================================
+   2. Global Accessibility Effects (Applied to HTML/Body)
+   ========================================= */
+
+/* Dyslexic Font */
+.acc-dyslexic {
+  font-family: "OpenDyslexic", system-ui, -apple-system, "Heebo", sans-serif !important;
+}
+
+/* Scaled Cursors (SVG) */
+.acc-cursor-2x * {
+  cursor: url('data:image/svg+xml;utf8,<svg fill="%23000000" height="48" width="48" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 399.55 399.55"><path d="M344.082,242.173L55.471,0v376.753l77.26-92.76l53.886,115.56l90.631-42.262l-53.886-115.559L344.082,242.173z M237.38,342.78l-36.252,16.905l-61.189-131.221l-54.467,65.395V64.335L261.296,211.87l-85.106-0.311L237.38,342.78z"></path></svg>') 8 8, auto !important;
+}
+.acc-cursor-3x * {
+  cursor: url('data:image/svg+xml;utf8,<svg fill="%23000000" height="72" width="72" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 399.55 399.55"><path d="M344.082,242.173L55.471,0v376.753l77.26-92.76l53.886,115.56l90.631-42.262l-53.886-115.559L344.082,242.173z M237.38,342.78l-36.252,16.905l-61.189-131.221l-54.467,65.395V64.335L261.296,211.87l-85.106-0.311L237.38,342.78z"></path></svg>') 12 12, auto !important;
+}
+
+/* Strong Focus */
+.acc-strong-focus *:focus {
+  outline: 4px dashed rgba(160, 108, 80, 0.95) !important;
+  outline-offset: 4px !important;
+}
+
+/* Link Highlights */
+.acc-highlight-links a {
+  background: linear-gradient(90deg, rgba(210, 170, 110, 0.2), rgba(160, 108, 80, 0.06));
+  padding: 2px 4px; border-radius: 4px; text-decoration: underline;
+}
+
+/* Pause Animations */
+.acc-pause-animations * {
+  animation-play-state: paused !important;
+  transition-duration: 0s !important;
+}
+
+/* Line Spacing */
+.acc-line-spacing p, .acc-line-spacing li {
+  line-height: 1.95 !important;
+}
+
+/* Saturation / Filter Modes */
+[data-sat="grayscale"] { filter: grayscale(1) !important; }
+[data-sat="low"] { filter: saturate(0.4) !important; }
+[data-sat="high"] { filter: saturate(2) !important; }
+.acc-high-contrast { background: #000 !important; color: #fff !important; }
+
+/* TTS Highlight */
+.tts-highlight { background: rgba(210, 170, 110, 0.22); border-radius: 3px; padding: 0; }
+
+/* Google Translate Overrides */
+#google_translate_element { display: block !important; }
+.goog-te-banner-frame.skiptranslate { display: none !important; }
+body { top: 0 !important; }
+
+/* =========================================
+   3. Dark Mode Implementation
+   (Consolidated selectors for cleaner code)
+   ========================================= */
+
+/* Base Dark Mode */
+.acc-dark-mode,
+.acc-dark-mode body,
+.acc-dark-mode main,
+.acc-dark-mode section,
+.acc-dark-mode article,
+.acc-dark-mode header,
+.acc-dark-mode nav,
+.acc-dark-mode footer,
+.acc-dark-mode .hero-content {
+  background-color: #1a1a1a !important;
+  color: #e9e9e9 !important;
+}
+
+/* Cards, Boxes, Specific Containers */
+.acc-dark-mode .card,
+.acc-dark-mode .box,
+.acc-dark-mode #community > div > div.container > div,
+.acc-dark-mode #community > div > div.container > div * {
+  background: #222 !important;
+  background-color: #222 !important;
+  color: #e9e9e9 !important;
+  border-color: #3a3a3a !important;
+}
+
+/* Elements with specific shadows */
+.acc-dark-mode .hero-content,
+.acc-dark-mode #community > div > div.container > div:nth-child(1),
+.acc-dark-mode #community > div > div.container > div:nth-child(2) {
+  box-shadow: 0 4px 15px rgb(255 255 255 / 30%) !important;
+}
+
+/* Pseudo Elements */
+.acc-dark-mode *::before,
+.acc-dark-mode *::after {
+  background-color: rgb(42, 42, 42) !important;
+  border-color: #3a3a3a !important;
+}
+
+/* Buttons */
+.acc-dark-mode button,
+.acc-dark-mode .btn {
+  background-color: #2a2a2a !important;
+  color: #e9e9e9 !important;
+  border: 1px solid #444 !important;
+}
+.acc-dark-mode button:hover,
+.acc-dark-mode .waze-btn, .acc-dark-mode .moovit-btn, .acc-dark-mode .back-btn {
+  background-color: #333 !important;
+  color: #e9e9e9 !important;
+}
+
+/* Inputs / Forms */
+.acc-dark-mode input,
+.acc-dark-mode textarea,
+.acc-dark-mode select {
+  background-color: #2a2a2a !important;
+  color: #e9e9e9 !important;
+  border: 1px solid #444 !important;
+}
+.acc-dark-mode input:focus {
+  border-color: #5f90ff !important;
+  background-color: #333 !important;
+}
+
+/* Side Nav & Text Colors */
+.acc-dark-mode .side-nav {
+  background: rgba(25, 25, 28, 0.85) !important;
+  border-left: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.6) !important;
+}
+.acc-dark-mode .side-nav .close-btn,
+.acc-dark-mode .side-header h2,
+.acc-dark-mode .side-nav a,
+.acc-dark-mode .hero-content p,
+.acc-dark-mode h2,
+.acc-dark-mode #community > div * {
+  color: #e9e9e9 !important;
+}
+.acc-dark-mode .side-nav ul li { border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important; }
+.acc-dark-mode .side-nav a:hover { color: #c49676 !important; }
+
+/* Nav Links */
+.acc-dark-mode nav ul.nav-links li a { color: #dddddd !important; }
+.acc-dark-mode nav ul.nav-links li a:hover { color: #c49676 !important; }
+.acc-dark-mode nav ul.nav-links li a::after { background-color: #c49676 !important; }
+
+/* Accessibilty Widget in Dark Mode */
+.acc-dark-mode #accessibility-root,
+.acc-dark-mode #accessibility-root * {
+  background-color: #1a1a1a !important;
+  color: #e9e9e9 !important;
+  border-color: #3a3a3a !important;
+}
+.acc-dark-mode .acc-panel {
+  background: #222 !important;
+  color: #e9e9e9 !important;
+  border: 1px solid #3a3a3a !important;
+  box-shadow: 0 22px 48px rgba(0, 0, 0, 0.35) !important;
+}
+
+/* =========================================
+   4. Media Queries (Responsive)
+   ========================================= */
+
+@media (max-width: 980px) {
+  .acc-tile { flex: 1 1 calc(50% - 12px); } /* 2 per row */
+  .acc-panel { overflow-y: auto; }
+}
+
+@media (max-width: 640px) {
+  #accessibility-root { right: 12px; bottom: 12px; }
+  .acc-panel { width: 49vw; max-width: 92vw; border-radius: 10px; padding: 10px; max-height: 80vh; overflow-y: auto; }
+  .acc-tile { flex: 1 1 100%; min-width: 100%; }
+}

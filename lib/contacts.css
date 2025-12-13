@@ -23,7 +23,7 @@ h1 {
     margin-bottom: 30px;
     text-decoration: none;
     color: #fff;
-    background-color: #333;
+    background-color: #a06c50;
     padding: 10px 20px;
     border-radius: 10px;
 }
@@ -197,7 +197,7 @@ h1 {
 .navigation-links p {
     margin-bottom: 20px;
     font-size: 1.1rem;
-    color: #555;
+    /* color: #555; */
 }
 
 .nav-buttons {
