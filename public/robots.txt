@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Sitemap: https://bmsafra.vercel.app/sitemap.xml
+Disallow: /cgi-bin/
+Disallow: /node_modules/
+Disallow: /private/
+Disallow: /tmp/
