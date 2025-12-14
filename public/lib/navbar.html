@@ -1,12 +1,13 @@
 <!-- Navbar -->
 <html lang="he" dir="rtl">
-  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../style.css" />
   <!-- <link rel="stylesheet" href="./sidebar.css"> -->
+  <script src="https://unpkg.com/@hebcal/core@5.5.0/dist/bundle.min.js"></script>
 
   <nav>
     <div class="logo">
       <a href="../index.html">
-        <img src="../favicon.png" alt="Logo">
+        <img src="../favicon.png" alt="Logo" />
       </a>
       בית מדרש ספרא
     </div>
@@ -16,7 +17,13 @@
       <li><a href="../index.html#community">קהילות</a></li>
       <li><a href="../index.html#history">היסטוריה</a></li>
       <li><a href="../index.html#gallery">תמונות</a></li>
-      <li><a href="https://drive.google.com/drive/folders/1VerAkXvv7LTz3SoGuzgo1dNwcm8GGoz2" target="_blank">חומרים</a></li>
+      <li>
+        <a
+          href="https://drive.google.com/drive/folders/1VerAkXvv7LTz3SoGuzgo1dNwcm8GGoz2"
+          target="_blank"
+          >חומרים</a
+        >
+      </li>
       <li><a href="../Pages/Contacts.html">צרו קשר</a></li>
     </ul>
 
@@ -24,29 +31,35 @@
   </nav>
 
   <!-- Side Nav -->
-<div class="side-nav" id="sideNav">
+  <div class="side-nav" id="sideNav">
+    <div class="side-top">
+      <div class="side-header">
+        <img src="../favicon.png" alt="logo" />
+        <h2>בית מדרש ספרא</h2>
+      </div>
 
-  <div class="side-top">
-    <div class="side-header">
-      <img src="../favicon.png" alt="logo">
-      <h2>בית מדרש ספרא</h2>
+      <div class="close-btn">&times;</div>
     </div>
 
-    <div class="close-btn">&times;</div>
+    <ul>
+      <li><a href="../index.html#about2">אודות</a></li>
+      <li><a href="../index.html#community">קהילות</a></li>
+      <li><a href="../index.html#history">היסטוריה</a></li>
+      <li><a href="../index.html#gallery">תמונות</a></li>
+      <li>
+        <a
+          href="https://drive.google.com/drive/folders/1VerAkXvv7LTz3SoGuzgo1dNwcm8GGoz2"
+          target="_blank"
+          >חומרים</a
+        >
+      </li>
+      <li><a href="../Pages/Contacts.html">צרו קשר</a></li>
+    </ul>
   </div>
-
-  <ul>
-    <li><a href="../index.html#about2">אודות</a></li>
-    <li><a href="../index.html#community">קהילות</a></li>
-    <li><a href="../index.html#history">היסטוריה</a></li>
-    <li><a href="../index.html#gallery">תמונות</a></li>
-    <li><a href="https://drive.google.com/drive/folders/1VerAkXvv7LTz3SoGuzgo1dNwcm8GGoz2" target="_blank">חומרים</a></li>
-    <li><a href="../Pages/Contacts.html">צרו קשר</a></li>
-  </ul>
-</div>
   <!-- תאריך MyLush -->
-  <div id="date-container">
-    <script src="https://mylush.net/js/tp.js"></script>
+  <!-- <div id="date-container">
+    <script src="https://mylush.net/js/tp.js"></script> -->
   </div>
-
+  <div id="date-container">טוען תאריך…</div>
+  <script src="date.js"></script>
 </html>
