@@ -205,6 +205,9 @@ nav .hamburger {
       font-size: 1.1rem;
       direction: rtl;
       cursor: default;
+      position: sticky;
+      z-index: 55555555;
+      top: 50;
     }
 /* ================= HERO ================= */
 .hero {

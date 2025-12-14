@@ -342,6 +342,59 @@
       document.getElementById("acc-root").innerHTML = html;
     });
 </script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const container = document.getElementById("date-container");
+  if (!container) return;
+
+  // פונקציית callback שמחליפה את התוכן
+  window.hebcalCallback = function(data) {
+    const hebDate = data.hebrew || "תאריך ?";
+    const gregDate = data.gregorian || "תאריך ?";
+    
+    let parsha = "אין פרשה";
+    if (Array.isArray(data.events)) {
+      const parshaEvent = data.events.find(ev => ev.startsWith("Parashat"));
+      if (parshaEvent) {
+        const parshaMap = {
+          "Bereshit":"בראשית","Noach":"נח","Lech-Lecha":"לך לך",
+          "Vayeira":"וירא","Chayei Sara":"חיי שרה","Toldot":"תולדות",
+          "Vayetzei":"ויצא","Vayishlach":"וישלח","Vayeshev":"וישב",
+          "Miketz":"מקץ","Vayigash":"ויגש","Vayechi":"ויחי",
+          "Shemot":"שמות","Vaera":"וארא","Bo":"בא","Beshalach":"בשלח",
+          "Yitro":"יתרו","Mishpatim":"משפטים","Terumah":"תרומה",
+          "Tetzaveh":"תצוה","Ki Tisa":"כי תשא","Vayakhel":"ויקהל",
+          "Pekudei":"פקודי","Vayikra":"ויקרא","Tzav":"צו","Shmini":"שמיני",
+          "Tazria":"תזריע","Metzora":"מצורע","Achrei Mot":"אחרי מות",
+          "Kedoshim":"קדושים","Emor":"אמור","Behar":"בהר",
+          "Bechukotai":"בחקתי","Bamidbar":"במדבר","Nasso":"נשא",
+          "Behaalotecha":"בהעלותך","Shlach":"שלח","Korach":"קרח",
+          "Chukat":"חוקת","Balak":"בלק","Pinchas":"פינחס",
+          "Matot":"מטות","Masei":"מסעי","Devarim":"דברים",
+          "Vaetchanan":"ואתחנן","Eikev":"עקב","Reeh":"ראה",
+          "Shoftim":"שופטים","Ki Teitzei":"כי תצא","Ki Tavo":"כי תבו",
+          "Nitzavim":"נצבים","Vayeilech":"ויאלך","Haazinu":"האזינו",
+          "Vezot Haberakhah":"וזאת הברכה"
+        };
+        const hebParsha = parshaMap[parshaEvent.replace("Parashat ", "")];
+        if (hebParsha) parsha = hebParsha;
+      }
+    }
+
+    container.textContent = `${hebDate} | ${gregDate} | פרשת ${parsha}`;
+  };
+
+  // תאריך נוכחי לפי המחשב
+  const today = new Date().toISOString().slice(0,10); // YYYY-MM-DD
+
+  // JSONP
+  const script = document.createElement("script");
+  script.src = `https://www.hebcal.com/converter?cfg=json&date=${today}&g2h=1&callback=hebcalCallback`;
+  script.async = true;
+  document.body.appendChild(script);
+});
+</script>
+
 </body>
 
 </html>
