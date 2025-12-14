@@ -195,19 +195,28 @@ nav .hamburger {
 }
     /* תאריך עם עיצוב חום */
     #date-container {
-      background-color: #f8f4f0; /* רקע חום בהיר */
-      color: #a06c50; /* טקסט חום כהה */
+      background-color: #fcfcfc; /* רקע חום בהיר */
+      width: 100%;
       font-weight: bold;
-      padding: 10px 0;
+      /* padding: 10px 0; */
       text-align: center;
       user-select: none;
       white-space: nowrap;
       font-size: 1.1rem;
       direction: rtl;
       cursor: default;
-      position: sticky;
+      position: fixed;
       z-index: 55555555;
-      top: 50;
+      top: 65px;
+      justify-self: center;
+    }
+    #date-container > a {
+    color: #a06c50 ;
+    /* background-color: #fcfcfc; */
+    text-decoration: none;
+    cursor: default;        /* סמן רגיל */
+    pointer-events: none;   /* מבטל כל לחיצה על הקישור */
+    
     }
 /* ================= HERO ================= */
 .hero {
