@@ -1,9 +1,11 @@
+<!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
   <meta charset="UTF-8" />
   <title>בית מדרש ספרא</title>
   <link rel="stylesheet" href="../style.css" />
   <style>
+    /* Navbar */
     nav {
       display: flex;
       justify-content: space-between;
@@ -13,24 +15,22 @@
       position: relative;
       z-index: 10;
     }
-
     nav .logo img {
       height: 40px;
       vertical-align: middle;
     }
-
     nav .nav-links {
       list-style: none;
       display: flex;
       gap: 20px;
     }
-
     nav .nav-links li a {
       text-decoration: none;
       color: #333;
       font-weight: bold;
     }
 
+    /* Date container */
     #date-container {
       background-color: #f8f8f8;
       color: #a06c50;
@@ -43,16 +43,74 @@
       direction: rtl;
       cursor: default;
       pointer-events: none;
+    }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      font-size: 2rem;
+      cursor: pointer;
+    }
+
+    /* Side Nav */
+    .side-nav {
+      height: 100%;
+      width: 0;
+      position: fixed;
+      z-index: 20;
+      top: 0;
+      right: 0;
+      background-color: #f8f8f8;
+      overflow-x: hidden;
+      transition: 0.3s;
+      padding-top: 60px;
+    }
+    .side-nav .side-top {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 0 20px;
+      margin-bottom: 20px;
+    }
+    .side-nav .side-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .side-nav .side-header img {
+      height: 40px;
+    }
+    .side-nav ul {
+      list-style: none;
+      padding: 0;
+    }
+    .side-nav ul li {
+      padding: 8px 16px;
+    }
+    .side-nav ul li a {
       text-decoration: none;
+      color: #333;
+      display: block;
+    }
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      left: 20px;
+      font-size: 2rem;
+      cursor: pointer;
+    }
+
+    @media screen and (max-width: 768px) {
+      nav .nav-links { display: none; }
+      .hamburger { display: block; }
     }
   </style>
 </head>
 <body>
+
   <nav>
     <div class="logo">
-      <a href="../index.html">
-        <img src="../favicon.png" alt="Logo" />
-      </a>
+      <a href="../index.html"><img src="../favicon.png" alt="Logo" /></a>
       בית מדרש ספרא
     </div>
 
@@ -61,110 +119,63 @@
       <li><a href="../index.html#community">קהילות</a></li>
       <li><a href="../index.html#history">היסטוריה</a></li>
       <li><a href="../index.html#gallery">תמונות</a></li>
-      <li>
-        <a href="https://drive.google.com/drive/folders/1VerAkXvv7LTz3SoGuzgo1dNwcm8GGoz2" target="_blank">חומרים</a>
-      </li>
+      <li><a href="https://drive.google.com/drive/folders/1VerAkXvv7LTz3SoGuzgo1dNwcm8GGoz2" target="_blank">חומרים</a></li>
       <li><a href="../Pages/Contacts.html">צרו קשר</a></li>
     </ul>
+
+    <div class="hamburger">&#9776;</div>
   </nav>
 
+  <!-- Side Nav -->
+  <div class="side-nav" id="sideNav">
+    <div class="side-top">
+      <div class="side-header">
+        <img src="../favicon.png" alt="logo">
+        <h2>בית מדרש ספרא</h2>
+      </div>
+      <div class="close-btn">&times;</div>
+    </div>
+    <ul>
+      <li><a href="../index.html#about2">אודות</a></li>
+      <li><a href="../index.html#community">קהילות</a></li>
+      <li><a href="../index.html#history">היסטוריה</a></li>
+      <li><a href="../index.html#gallery">תמונות</a></li>
+      <li><a href="https://drive.google.com/drive/folders/1VerAkXvv7LTz3SoGuzgo1dNwcm8GGoz2" target="_blank">חומרים</a></li>
+      <li><a href="../Pages/Contacts.html">צרו קשר</a></li>
+    </ul>
+  </div>
+
+  <!-- Date -->
   <div id="date-container">טוען תאריך...</div>
 
   <script>
-    async function loadHebcalDate() {
-      const container = document.getElementById('date-container');
+    // Side Nav
+    const sideNav = document.getElementById("sideNav");
+    const hamburger = document.querySelector(".hamburger");
+    const closeBtn = document.querySelector(".close-btn");
+
+    hamburger.addEventListener("click", () => sideNav.style.width = "250px");
+    closeBtn.addEventListener("click", () => sideNav.style.width = "0");
+
+    // Show quick Gregorian date before API loads
+    const container = document.getElementById("date-container");
+    const today = new Date();
+    container.textContent = `יום ${["ראשון","שני","שלישי","רביעי","חמישי","שישי","שבת"][today.getDay()]}, ${String(today.getDate()).padStart(2,'0')}/${String(today.getMonth()+1).padStart(2,'0')}/${today.getFullYear()}`;
+
+    // Fetch full Hebrew date & Parsha from serverless function
+    async function loadDate() {
       try {
-        const today = new Date().toISOString().slice(0,10); // YYYY-MM-DD
-
-        const response = await fetch(`https://www.hebcal.com/converter?cfg=json&date=${today}&g2h=1&strict=1`);
-        const data = await response.json();
-
-        // מפה ליום השבוע בעברית
-        const hebrewDays = ["ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת"];
-        const dayHebrew = "יום " + hebrewDays[new Date(today).getDay()];
-
-        // תאריך עברי
-        const hebDate = data.hebrew || "תאריך ?";
-
-        // תאריך לועזי
-        const gregDate = today.split('-').reverse().join('/'); // DD/MM/YYYY
-
-        // חיפוש פרשת שבוע בתוך events
-        let parsha = "אין פרשה";
-        if (Array.isArray(data.events)) {
-          const parshaEvent = data.events.find(ev => ev.startsWith("Parashat"));
-          if (parshaEvent) {
-            // מחליף "Parashat Miketz" ל-"מיקץ" בעברית
-            // ניתן ליצור מפה של שמות הפרשות בעברית
-            const parshaMap = {
-              "Bereshit": "בראשית",
-              "Noach": "נח",
-              "Lech-Lecha": "לך לך",
-              "Vayeira": "וירא",
-              "Chayei Sara": "חיי שרה",
-              "Toldot": "תולדות",
-              "Vayetzei": "ויצא",
-              "Vayishlach": "וישלח",
-              "Vayeshev": "וישב",
-              "Miketz": "מקץ",
-              "Vayigash": "ויגש",
-              "Vayechi": "ויחי",
-              "Shemot": "שמות",
-              "Vaera": "וארא",
-              "Bo": "בא",
-              "Beshalach": "בשלח",
-              "Yitro": "יתרו",
-              "Mishpatim": "משפטים",
-              "Terumah": "תרומה",
-              "Tetzaveh": "תצוה",
-              "Ki Tisa": "כי תשא",
-              "Vayakhel": "ויקהל",
-              "Pekudei": "פקודי",
-              "Vayikra": "ויקרא",
-              "Tzav": "צו",
-              "Shmini": "שמיני",
-              "Tazria": "תזריע",
-              "Metzora": "מצורע",
-              "Achrei Mot": "אחרי מות",
-              "Kedoshim": "קדושים",
-              "Emor": "אמור",
-              "Behar": "בהר",
-              "Bechukotai": "בחקתי",
-              "Bamidbar": "במדבר",
-              "Nasso": "נשא",
-              "Behaalotecha": "בהעלותך",
-              "Shlach": "שלח",
-              "Korach": "קרח",
-              "Chukat": "חוקת",
-              "Balak": "בלק",
-              "Pinchas": "פינחס",
-              "Matot": "מטות",
-              "Masei": "מסעי",
-              "Devarim": "דברים",
-              "Vaetchanan": "ואתחנן",
-              "Eikev": "עקב",
-              "Reeh": "ראה",
-              "Shoftim": "שופטים",
-              "Ki Teitzei": "כי תצא",
-              "Ki Tavo": "כי תבו",
-              "Nitzavim": "נצבים",
-              "Vayeilech": "ויאלך",
-              "Haazinu": "האזינו",
-              "Vezot Haberakhah": "וזאת הברכה"
-            };
-            const hebParshaName = parshaMap[parshaEvent.replace("Parashat ", "")];
-            if (hebParshaName) parsha = hebParshaName;
-          }
-        }
-
-        container.textContent = `${dayHebrew}, ${hebDate}, ${gregDate}, פרשת ${parsha}`;
-      } catch (err) {
+        const res = await fetch("/api/date");
+        const data = await res.json();
+        container.textContent = `${data.dayHebrew}, ${data.hebDate}, ${data.gregDate}, פרשת ${data.parsha}`;
+      } catch(err) {
         console.error(err);
         container.textContent = "לא ניתן לטעון תאריך";
       }
     }
 
-    window.onload = loadHebcalDate;
+    window.onload = loadDate;
   </script>
+
 </body>
 </html>
