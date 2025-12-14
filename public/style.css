@@ -205,7 +205,7 @@ nav .hamburger {
       font-size: 1.1rem;
       direction: rtl;
       cursor: default;
-      position: fixed;
+      position: absolute;
       z-index: 55555555;
       top: 65px;
       justify-self: center;
