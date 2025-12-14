@@ -193,7 +193,19 @@ nav .hamburger {
   color: #333;
   font-weight: 700;
 }
-
+    /* תאריך עם עיצוב חום */
+    #date-container {
+      background-color: #f8f4f0; /* רקע חום בהיר */
+      color: #a06c50; /* טקסט חום כהה */
+      font-weight: bold;
+      padding: 10px 0;
+      text-align: center;
+      user-select: none;
+      white-space: nowrap;
+      font-size: 1.1rem;
+      direction: rtl;
+      cursor: default;
+    }
 /* ================= HERO ================= */
 .hero {
   position: relative;

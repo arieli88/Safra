@@ -1,82 +1,16 @@
-<!DOCTYPE html>
+<!-- Navbar -->
 <html lang="he" dir="rtl">
-<head>
-  <meta charset="UTF-8">
-  <title>בית מדרש ספרא</title>
   <link rel="stylesheet" href="../style.css">
-  <style>
-    /* Navbar */
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background-color: #f2f2f2;
-      padding: 10px 20px;
-      position: relative;
-      z-index: 10;
-    }
-    nav .logo img { height: 40px; vertical-align: middle; }
-    nav .nav-links { list-style: none; display: flex; gap: 20px; }
-    nav .nav-links li a { text-decoration: none; color: #333; font-weight: bold; }
-
-    /* Hamburger */
-    .hamburger {
-      font-size: 2rem;
-      cursor: pointer;
-      display: none;
-      user-select: none;
-    }
-
-    /* Side Nav */
-    .side-nav {
-      height: 100%;
-      width: 0;
-      position: fixed;
-      z-index: 20;
-      top: 0;
-      right: 0;
-      background-color: #f8f8f8;
-      overflow-x: hidden;
-      transition: 0.3s;
-      padding-top: 60px;
-    }
-    .side-nav .side-top { display: flex; flex-direction: column; align-items: flex-start; padding: 0 20px; margin-bottom: 20px; }
-    .side-nav .side-header { display: flex; align-items: center; gap: 10px; }
-    .side-nav .side-header img { height: 40px; }
-    .side-nav ul { list-style: none; padding: 0; }
-    .side-nav ul li { padding: 8px 16px; }
-    .side-nav ul li a { text-decoration: none; color: #333; display: block; }
-    .close-btn { position: absolute; top: 10px; left: 20px; font-size: 2rem; cursor: pointer; }
-
-    /* תאריך חום */
-    #date-container {
-      background-color: #f8f4f0;
-      color: #a06c50;
-      font-weight: bold;
-      padding: 10px 0;
-      text-align: center;
-      user-select: none;
-      white-space: nowrap;
-      font-size: 1.1rem;
-      direction: rtl;
-      cursor: default;
-    }
-    #date-container a { color: inherit; text-decoration: none; }
-    #date-container a:hover { text-decoration: underline; }
-
-    @media screen and (max-width: 768px) {
-      nav .nav-links { display: none; }
-      .hamburger { display: block; }
-    }
-  </style>
-</head>
-<body>
+  <!-- <link rel="stylesheet" href="./sidebar.css"> -->
 
   <nav>
     <div class="logo">
-      <a href="../index.html"><img src="../favicon.png" alt="Logo"></a>
+      <a href="../index.html">
+        <img src="../favicon.png" alt="Logo">
+      </a>
       בית מדרש ספרא
     </div>
+
     <ul class="nav-links">
       <li><a href="../index.html#about2">אודות</a></li>
       <li><a href="../index.html#community">קהילות</a></li>
@@ -85,41 +19,34 @@
       <li><a href="https://drive.google.com/drive/folders/1VerAkXvv7LTz3SoGuzgo1dNwcm8GGoz2" target="_blank">חומרים</a></li>
       <li><a href="../Pages/Contacts.html">צרו קשר</a></li>
     </ul>
-    <div class="hamburger">&#9776;</div>
+
+    <div class="hamburger"><i class="bi bi-list"></i></div>
   </nav>
 
   <!-- Side Nav -->
-  <div class="side-nav" id="sideNav">
-    <div class="side-top">
-      <div class="side-header">
-        <img src="../favicon.png" alt="logo">
-        <h2>בית מדרש ספרא</h2>
-      </div>
-      <div class="close-btn">&times;</div>
+<div class="side-nav" id="sideNav">
+
+  <div class="side-top">
+    <div class="side-header">
+      <img src="../favicon.png" alt="logo">
+      <h2>בית מדרש ספרא</h2>
     </div>
-    <ul>
-      <li><a href="../index.html#about2">אודות</a></li>
-      <li><a href="../index.html#community">קהילות</a></li>
-      <li><a href="../index.html#history">היסטוריה</a></li>
-      <li><a href="../index.html#gallery">תמונות</a></li>
-      <li><a href="https://drive.google.com/drive/folders/1VerAkXvv7LTz3SoGuzgo1dNwcm8GGoz2" target="_blank">חומרים</a></li>
-      <li><a href="../Pages/Contacts.html">צרו קשר</a></li>
-    </ul>
+
+    <div class="close-btn">&times;</div>
   </div>
 
+  <ul>
+    <li><a href="../index.html#about2">אודות</a></li>
+    <li><a href="../index.html#community">קהילות</a></li>
+    <li><a href="../index.html#history">היסטוריה</a></li>
+    <li><a href="../index.html#gallery">תמונות</a></li>
+    <li><a href="https://drive.google.com/drive/folders/1VerAkXvv7LTz3SoGuzgo1dNwcm8GGoz2" target="_blank">חומרים</a></li>
+    <li><a href="../Pages/Contacts.html">צרו קשר</a></li>
+  </ul>
+</div>
   <!-- תאריך MyLush -->
   <div id="date-container">
-    <script src="https://mylush.net/js/tp.js" async></script>
+    <script src="//mylush.net/js/tp.js"></script>
   </div>
 
-  <script>
-    const sideNav = document.getElementById("sideNav");
-    const hamburger = document.querySelector(".hamburger");
-    const closeBtn = document.querySelector(".close-btn");
-
-    hamburger.addEventListener("click", () => sideNav.style.width = "250px");
-    closeBtn.addEventListener("click", () => sideNav.style.width = "0");
-  </script>
-
-</body>
 </html>
