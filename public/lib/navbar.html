@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>בית מדרש ספרא</title>
-  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../style.css">
   <style>
-    /* ניווט ראשי */
+    /* Navbar */
     nav {
       display: flex;
       justify-content: space-between;
@@ -15,49 +15,16 @@
       position: relative;
       z-index: 10;
     }
-    nav .logo img {
-      height: 40px;
-      vertical-align: middle;
-    }
-    nav .nav-links {
-      list-style: none;
-      display: flex;
-      gap: 20px;
-    }
-    nav .nav-links li a {
-      text-decoration: none;
-      color: #333;
-      font-weight: bold;
-    }
-
-    /* תאריך עם עיצוב חום */
-    #date-container {
-      background-color: #f8f4f0; /* רקע חום בהיר */
-      color: #a06c50; /* טקסט חום כהה */
-      font-weight: bold;
-      padding: 10px 0;
-      text-align: center;
-      user-select: none;
-      white-space: nowrap;
-      font-size: 1.1rem;
-      direction: rtl;
-      cursor: default;
-    }
-
-    #date-container a {
-      color: inherit;
-      text-decoration: none;
-      cursor: pointer;
-    }
-    #date-container a:hover {
-      text-decoration: underline;
-    }
+    nav .logo img { height: 40px; vertical-align: middle; }
+    nav .nav-links { list-style: none; display: flex; gap: 20px; }
+    nav .nav-links li a { text-decoration: none; color: #333; font-weight: bold; }
 
     /* Hamburger */
     .hamburger {
-      display: none;
       font-size: 2rem;
       cursor: pointer;
+      display: none;
+      user-select: none;
     }
 
     /* Side Nav */
@@ -73,40 +40,29 @@
       transition: 0.3s;
       padding-top: 60px;
     }
-    .side-nav .side-top {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      padding: 0 20px;
-      margin-bottom: 20px;
+    .side-nav .side-top { display: flex; flex-direction: column; align-items: flex-start; padding: 0 20px; margin-bottom: 20px; }
+    .side-nav .side-header { display: flex; align-items: center; gap: 10px; }
+    .side-nav .side-header img { height: 40px; }
+    .side-nav ul { list-style: none; padding: 0; }
+    .side-nav ul li { padding: 8px 16px; }
+    .side-nav ul li a { text-decoration: none; color: #333; display: block; }
+    .close-btn { position: absolute; top: 10px; left: 20px; font-size: 2rem; cursor: pointer; }
+
+    /* תאריך חום */
+    #date-container {
+      background-color: #f8f4f0;
+      color: #a06c50;
+      font-weight: bold;
+      padding: 10px 0;
+      text-align: center;
+      user-select: none;
+      white-space: nowrap;
+      font-size: 1.1rem;
+      direction: rtl;
+      cursor: default;
     }
-    .side-nav .side-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .side-nav .side-header img {
-      height: 40px;
-    }
-    .side-nav ul {
-      list-style: none;
-      padding: 0;
-    }
-    .side-nav ul li {
-      padding: 8px 16px;
-    }
-    .side-nav ul li a {
-      text-decoration: none;
-      color: #333;
-      display: block;
-    }
-    .close-btn {
-      position: absolute;
-      top: 10px;
-      left: 20px;
-      font-size: 2rem;
-      cursor: pointer;
-    }
+    #date-container a { color: inherit; text-decoration: none; }
+    #date-container a:hover { text-decoration: underline; }
 
     @media screen and (max-width: 768px) {
       nav .nav-links { display: none; }
@@ -118,10 +74,9 @@
 
   <nav>
     <div class="logo">
-      <a href="../index.html"><img src="../favicon.png" alt="Logo" /></a>
+      <a href="../index.html"><img src="../favicon.png" alt="Logo"></a>
       בית מדרש ספרא
     </div>
-
     <ul class="nav-links">
       <li><a href="../index.html#about2">אודות</a></li>
       <li><a href="../index.html#community">קהילות</a></li>
@@ -130,7 +85,6 @@
       <li><a href="https://drive.google.com/drive/folders/1VerAkXvv7LTz3SoGuzgo1dNwcm8GGoz2" target="_blank">חומרים</a></li>
       <li><a href="../Pages/Contacts.html">צרו קשר</a></li>
     </ul>
-
     <div class="hamburger">&#9776;</div>
   </nav>
 
@@ -155,11 +109,10 @@
 
   <!-- תאריך MyLush -->
   <div id="date-container">
-    <script src="//mylush.net/js/tp.js"></script>
+    <script src="https://mylush.net/js/tp.js" async></script>
   </div>
 
   <script>
-    // Side Nav functionality
     const sideNav = document.getElementById("sideNav");
     const hamburger = document.querySelector(".hamburger");
     const closeBtn = document.querySelector(".close-btn");
