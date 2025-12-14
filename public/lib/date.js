@@ -1,28 +1,27 @@
-(function () {
-  if (typeof Hebcal === "undefined") {
-    console.error("Hebcal not loaded");
-    return;
+(function init() {
+  function run() {
+    if (typeof Hebcal === "undefined") return false;
+
+    const el = document.getElementById("date-container");
+    if (!el) return false;
+
+    const today = new Date();
+
+    const days = ["ראשון","שני","שלישי","רביעי","חמישי","שישי","שבת"];
+    const dayName = days[today.getDay()];
+
+    const h = new Hebcal.HDate(today);
+    const sedra = h.getSedra("il");
+    const parasha = sedra ? sedra[0] : "אין פרשה";
+
+    el.textContent =
+      `${dayName}, ${h.getDate()} ${h.getMonthName()} ${h.getFullYear()} | ` +
+      `${today.toLocaleDateString("he-IL")} | פרשת ${parasha}`;
+
+    return true;
   }
 
-  const el = document.getElementById("date-container");
-  if (!el) return;
-
-  const today = new Date();
-
-  // יום בשבוע
-  const days = ["ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת"];
-  const dayName = days[today.getDay()];
-
-  // לועזי
-  const g = today.toLocaleDateString("he-IL");
-
-  // עברי
-  const h = new Hebcal.HDate(today);
-  const hDate = `${h.getDate()} ${h.getMonthName()} ${h.getFullYear()}`;
-
-  // פרשת השבוע (רק חישוב לוקאלי)
-  const sedra = h.getSedra("il");
-  const parasha = sedra ? sedra[0] : "אין פרשה";
-
-  el.textContent = `${dayName}, ${hDate} | ${g} | פרשת ${parasha}`;
+  if (!run()) {
+    document.addEventListener("DOMContentLoaded", run);
+  }
 })();
