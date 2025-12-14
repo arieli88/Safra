@@ -228,7 +228,7 @@ body { top: 0 !important; }
   border: 1px solid #444 !important;
 }
 .acc-dark-mode button:hover,
-.acc-dark-mode .waze-btn, .acc-dark-mode .moovit-btn, .acc-dark-mode .back-btn {
+.acc-dark-mode .waze-btn, .acc-dark-mode .moovit-btn, .acc-dark-mode .back-btn, .acc-dark-mode #date-container, .acc-dark-mode #date-container > a  {
   background-color: #333 !important;
   color: #e9e9e9 !important;
 }
