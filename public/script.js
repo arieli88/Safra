@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* ================= SIDE NAV / HAMBURGER ================= */
-  fetch('/public/lib/navbar.html')
+  fetch('lib/navbar.html')
     .then(r => r.text())
     .then(html => {
       document.getElementById('navbar').innerHTML = html;
