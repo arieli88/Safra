@@ -64,6 +64,7 @@ function createCarousel(containerSelector, images, options = {}) {
   container.style.width = "100%";
   container.style.display = "block";
   container.style.setProperty("--slide-gap", `${settings.gap}px`);
+  container.style.minHeight = "280px"; // ← מוסיף גובה מינימום ל-iOS/Safari
 
   // --- 3. יצירת wrapper עם RTL ---
   const wrapper = document.createElement("div");
@@ -72,6 +73,7 @@ function createCarousel(containerSelector, images, options = {}) {
   wrapper.style.gap = `var(--slide-gap)`;
   wrapper.style.flexDirection = "row-reverse"; // ← RTL
   container.appendChild(wrapper);
+  wrapper.style.minHeight = "200px"; // ← מוודא של-wrapper יש גובה
 
   // --- 4. Preload כל התמונות ברקע ---
   function preloadImages() {
@@ -97,6 +99,7 @@ function createCarousel(containerSelector, images, options = {}) {
     imgWrapper.style.overflow = "hidden";
     imgWrapper.style.borderRadius = settings.roundCorner;
     imgWrapper.style.aspectRatio = "4 / 3";
+    imgWrapper.style.minHeight = "150px"; // ← מוודא של-slide יש גובה מינימום
 
     const img = document.createElement("img");
     img.src = src;

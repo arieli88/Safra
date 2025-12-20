@@ -372,6 +372,7 @@ footer .footer-map { flex-shrink: 0; }
   display: flex;
   flex-direction: row-reverse !important;
   padding-right: 19px;
+  
 }
 .carousel-wrapper > .carousel-slide {
   will-change: transform; /* רק ל-slides */
