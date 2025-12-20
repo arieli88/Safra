@@ -264,3 +264,21 @@ h1 {
         background: transparent; /* הרקע הלבן מגיע מה-::after */
     }
 }
+
+/* Desktop & Large Screens */
+@media (min-width: 769px) {
+
+    .lecturer-card {
+        flex-direction: row;
+        max-width: none; /* מחיקת ההגבלה של 270px */
+    }
+
+    .lecturer-card img {
+        width: 50%;
+    }
+
+    .lecturer-info {
+        justify-content: space-around;
+    }
+
+}

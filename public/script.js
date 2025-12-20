@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* ================= SIDE NAV / HAMBURGER ================= */
-  fetch('../lib/navbar.html')
+  fetch('/public/lib/navbar.html')
     .then(r => r.text())
     .then(html => {
       document.getElementById('navbar').innerHTML = html;
@@ -155,3 +155,26 @@ window.addEventListener('resize', positionHeroContent);
     window.open(decoded, "_blank");      // פתיחה
   }
 
+console.log(
+  "%cנבנה על ידי\n%c😉%cאריאל פלישבסקי%c🔥",
+  "font-size: 18px; color: #fff; padding: 4px 8px; border-radius: 4px;", // נבנה על ידי
+    "font-size: 20px;", // האש 🔥 בלי צבע, נשארה טבעית
+"font-size: 20px; font-weight: bold; background: linear-gradient(90deg, #ff7e5f, #feb47b); -webkit-background-clip: text; color: transparent;", // השם
+  "font-size: 18px; color: #f0c674;" // האימוג'י 😉
+);
+
+
+
+const art = `
+ _____                                             _____ 
+( ___ )                                           ( ___ )
+ |   |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|   | 
+ |   |    _           _         _   _   ___   ___  |   | 
+ |   |   /_\\    _ _  (_)  ___  | | (_) ( _ ) ( _ ) |   | 
+ |   |  / _ \\  | '_| | | / -_) | | | | / _ \\ / _ \\ |   | 
+ |   | /_/ \\_\\ |_|   |_| \\___| |_| |_| \\___/ \\___/ |   | 
+ |___|~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|___| 
+(_____)                                           (_____)
+`;
+
+console.log("%c" + art, "color: orange; font-family: monospace; font-size:10px; font-weight: bold;  line-height: 1;");
