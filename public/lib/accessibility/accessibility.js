@@ -1,4 +1,4 @@
-/* accessibility.js - final fixes */
+/* accessibility.js - final fixes with Clean Google Translate & Manual Dict */
 
 /* config */
 const ACC_KEY = "accessibility_v4_settings";
@@ -9,6 +9,16 @@ const SAT_ORDER = ["normal", "grayscale", "low", "high"];
 const CURSOR_ORDER = ["normal", "2x", "3x"];
 const DYSLEXIC_FONT_URL = "https://cdn.jsdelivr.net/gh/antijingoist/OpenDyslexic@latest/fonts/OpenDyslexic3-Regular.ttf";
 
+/* Manual Translation Dictionary */
+const I18N_DICT = {
+  "lesson_wind": {
+    "he": "משב רוח",
+    "en": "Mashav Ruach",
+    "ru": "Машав Руах",
+    // Add other languages if needed, fallback will be Hebrew or Google's output
+  }
+};
+
 (function () {
   "use strict";
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", main);
@@ -17,6 +27,39 @@ const DYSLEXIC_FONT_URL = "https://cdn.jsdelivr.net/gh/antijingoist/OpenDyslexic
   function main() {
     // Inject dyslexic font (once)
     injectDyslexicFont();
+
+// --------------------------------------------------------
+    // TIKUN: Push Navbar Down when Translated
+    // --------------------------------------------------------
+    function fixGoogleTranslateLayout() {
+      const style = document.createElement("style");
+      style.id = "gt-layout-fix";
+      style.innerHTML = `
+        /* 1. דוחף את הגוף למטה ב-50 פיקסלים כשהתרגום פעיל */
+        .translated-ltr body, .translated-rtl body {
+            top: 50px !important;
+        }
+
+        /* 2. מזיז את ה-NAVBAR למטה. 
+           הוספתי פה את הסלקטורים הנפוצים, אם ה-Navbar שלך משתמש ב-ID אחר, שנה את #navbar 
+        */
+        .translated-ltr #navbar, .translated-rtl #navbar, 
+        .translated-ltr nav, .translated-rtl nav,
+        .translated-ltr header, .translated-rtl header,
+        .translated-ltr .navbar, .translated-rtl .navbar {
+            top: 50px !important;
+            transition: top 0.3s ease; /* אנימציה חלקה */
+        }
+
+        /* תיקון לפס של גוגל שייראה מסודר למעלה */
+        .goog-te-banner-frame {
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            z-index: 100000 !important;
+        }
+      `;
+      document.head.appendChild(style);
+    }
+    fixGoogleTranslateLayout(); // הפעלה
 
     // inject svg filters (kept for possible future usage)
     injectSVGDefs();
@@ -54,11 +97,20 @@ const DYSLEXIC_FONT_URL = "https://cdn.jsdelivr.net/gh/antijingoist/OpenDyslexic
     };
     loadState(state);
 
-    // capture original font sizes for px-based elements (store as data-acc-orig-fontsize)
+    // capture original font sizes for px-based elements
     captureOriginalFontSizes();
 
     // apply loaded state
     applyState();
+
+    // Apply language from state immediately if saved
+    if (state.lang && state.lang !== "he") {
+      // Small delay to ensure Google Translate script availability if cached
+      setTimeout(() => translatePage(state.lang), 500);
+    } else {
+      // Even if Hebrew, ensure manual terms are correct
+      applyManualTranslations("he");
+    }
 
     // event listeners
     fab.addEventListener("click", togglePanel);
@@ -75,24 +127,15 @@ const DYSLEXIC_FONT_URL = "https://cdn.jsdelivr.net/gh/antijingoist/OpenDyslexic
       });
     });
 
-    langSelect.value = state.lang || document.documentElement.lang || "he";
+    langSelect.value = state.lang || "he";
     langSelect.addEventListener("change", () => {
-      const val = langSelect.value;
-      state.lang = val;
-      applyLanguage(val);
-      saveState();
+      // Just update UI, button click triggers action
     });
 
-    // Translate button: load google script dynamically if needed and apply translation
+    // Translate button click
     translateBtn.addEventListener("click", () => {
-      const target = langSelect.value;
-      ensureGoogleTranslateLoaded().then(() => {
-        // if google loaded, apply using combo
-        applyGoogleTranslate(target);
-      }).catch(err => {
-        announce("לא ניתן לטעון את Google Translate: " + (err && err.message ? err.message : ""));
-        console.warn("GT load error", err);
-      });
+      const lang = langSelect.value;
+      translatePage(lang);
     });
 
     // TTS
@@ -127,7 +170,6 @@ const DYSLEXIC_FONT_URL = "https://cdn.jsdelivr.net/gh/antijingoist/OpenDyslexic
 
     /* ---------------- Text scale ---------------- */
     function captureOriginalFontSizes() {
-      // target elements likely to contain text
       const sel = "p,li,span,a,h1,h2,h3,h4,h5,h6,button,label,strong,em,td,th,small";
       document.querySelectorAll(sel).forEach(n => {
         if (n.closest && n.closest("#accessibility-root")) return;
@@ -138,7 +180,6 @@ const DYSLEXIC_FONT_URL = "https://cdn.jsdelivr.net/gh/antijingoist/OpenDyslexic
           n.setAttribute("data-acc-orig-fontsize", parseFloat(f).toString());
         }
       });
-      // store root original font-size
       const html = document.documentElement;
       if (!html.hasAttribute("data-acc-root-fontsize")) {
         const rootSize = parseFloat(getComputedStyle(html).fontSize) || 16;
@@ -207,20 +248,19 @@ const DYSLEXIC_FONT_URL = "https://cdn.jsdelivr.net/gh/antijingoist/OpenDyslexic
     }
 
     /* ---------------- Dark mode ---------------- */
-function toggleDarkMode(el) {
-  state.darkMode = !state.darkMode;
-  document.documentElement.classList.toggle("acc-dark-mode", state.darkMode);
-  document.body.classList.toggle("acc-dark-mode", state.darkMode);
-  if (el) el.setAttribute("aria-checked", String(state.darkMode));
+    function toggleDarkMode(el) {
+      state.darkMode = !state.darkMode;
+      document.documentElement.classList.toggle("acc-dark-mode", state.darkMode);
+      document.body.classList.toggle("acc-dark-mode", state.darkMode);
+      if (el) el.setAttribute("aria-checked", String(state.darkMode));
 
-  // שינוי האייקון בלוגו
-  const logoImg = document.querySelector("#navbar nav .logo a img");
-  if (logoImg) logoImg.src = state.darkMode ? "/favicon-Dark.png" : "/favicon.png";
+      // icon swap
+      const logoImg = document.querySelector("#navbar nav .logo a img");
+      if (logoImg) logoImg.src = state.darkMode ? "/favicon-Dark.png" : "/favicon.png";
 
-  announce(state.darkMode ? "Dark mode enabled" : "Dark mode disabled");
-  saveState();
-}
-
+      announce(state.darkMode ? "Dark mode enabled" : "Dark mode disabled");
+      saveState();
+    }
 
     /* ---------------- Highlight links ---------------- */
     function toggleHighlightLinks(el) {
@@ -233,35 +273,30 @@ function toggleDarkMode(el) {
     }
 
     /* ---------------- Pause animations ---------------- */
-function togglePauseAnimations(el) {
-  state.pauseAnimations = !state.pauseAnimations;
-  document.documentElement.classList.toggle("acc-pause-animations", state.pauseAnimations);
-
-  if (state.pauseAnimations) {
-    if (!document.getElementById("acc-pause-style")) {
-      const st = document.createElement("style");
-      st.id = "acc-pause-style";
-
-      // תופס הכל כולל ::before ::after
-      st.innerHTML = `
-        *, *::before, *::after {
-          animation-play-state: paused !important;
-          transition-duration: 0s !important;
-          transition-delay: 0s !important;
+    function togglePauseAnimations(el) {
+      state.pauseAnimations = !state.pauseAnimations;
+      document.documentElement.classList.toggle("acc-pause-animations", state.pauseAnimations);
+      if (state.pauseAnimations) {
+        if (!document.getElementById("acc-pause-style")) {
+          const st = document.createElement("style");
+          st.id = "acc-pause-style";
+          st.innerHTML = `
+            *, *::before, *::after {
+              animation-play-state: paused !important;
+              transition-duration: 0s !important;
+              transition-delay: 0s !important;
+            }
+          `;
+          document.head.appendChild(st);
         }
-      `;
-
-      document.head.appendChild(st);
+      } else {
+        const s = document.getElementById("acc-pause-style");
+        if (s) s.remove();
+      }
+      if (el) el.setAttribute("aria-checked", String(state.pauseAnimations));
+      announce(state.pauseAnimations ? "Animations paused" : "Animations resumed");
+      saveState();
     }
-  } else {
-    const s = document.getElementById("acc-pause-style");
-    if (s) s.remove();
-  }
-
-  if (el) el.setAttribute("aria-checked", String(state.pauseAnimations));
-  announce(state.pauseAnimations ? "Animations paused" : "Animations resumed");
-  saveState();
-}
 
     /* ---------------- Line spacing ---------------- */
     function toggleLineSpacing(el) {
@@ -286,111 +321,156 @@ function togglePauseAnimations(el) {
       if (el) el.setAttribute("aria-label", `Color ${next}`);
     }
 
-    /* ---------------- Google Translate dynamic loader ---------------- */
-    let googleLoading = false;
-    function ensureGoogleTranslateLoaded() {
-      return new Promise((resolve, reject) => {
-        if (window.google && window.google.translate && window.google.translate.TranslateElement) return resolve();
-        if (googleLoading) {
-          // poll until available
-          const tries = {n:0};
-          const poll = setInterval(() => {
-            tries.n++;
-            if (window.google && window.google.translate && window.google.translate.TranslateElement) {
-              clearInterval(poll); resolve();
-            } else if (tries.n > 20) { clearInterval(poll); reject(new Error("timeout")); }
-          }, 300);
-          return;
-        }
-        googleLoading = true;
-        // define callback
-        window.googleTranslateInit = function () {
-          try {
-            // create element container (hidden)
-            let el = document.getElementById("google_translate_element");
-            if (!el) {
-              el = document.createElement("div");
-              el.id = "google_translate_element";
-              el.style.display = "none";
-              document.body.appendChild(el);
-            }
-            new window.google.translate.TranslateElement({
-              pageLanguage: (document.documentElement.lang || 'auto'),
-              includedLanguages: 'en,fr,es,de,ru,ar,zh-CN,pt,it,he',
-              layout: window.google.translate.TranslateElement.InlineLayout.SIMPLE,
-              autoDisplay: false
-            }, 'google_translate_element');
-            googleLoading = false;
-            resolve();
-          } catch (e) {
-            googleLoading = false;
-            reject(e);
-          }
-        };
-        // inject script
-        const s = document.createElement("script");
-        s.src = "//translate.google.com/translate_a/element.js?cb=googleTranslateInit";
-        s.async = true;
-        s.onerror = () => reject(new Error("failed to load google translate script"));
-        document.head.appendChild(s);
-      });
+    /* ========================================================== */
+    /* GOOGLE TRANSLATE & MANUAL OVERRIDES            */
+    /* ========================================================== */
+    let gtReady = false;
+
+    // 1. Define Init Function globally
+    window.googleTranslateElementInit = function () {
+      gtReady = true;
+      let el = document.getElementById("google_translate_element");
+      if (!el) {
+        el = document.createElement("div");
+        el.id = "google_translate_element";
+        el.style.display = "none";
+        document.body.appendChild(el);
+      }
+      new google.translate.TranslateElement(
+        {
+          pageLanguage: "he",
+          includedLanguages: "he,en,ar,ru,fr,de,es",
+          autoDisplay: false
+        },
+        "google_translate_element"
+      );
+    };
+
+    // 2. Load Script Once
+    function loadGoogleTranslateOnce() {
+      if (gtReady || document.getElementById("gt-script")) return;
+      const s = document.createElement("script");
+      s.id = "gt-script";
+      s.src = "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+      s.async = true;
+      document.body.appendChild(s);
     }
 
-    function applyGoogleTranslate(targetLang) {
-      // attempt to use the combo select created by google
-      const combo = document.querySelector(".goog-te-combo");
-      if (!combo) {
-        announce("Translate UI עדיין לא נטען");
+    // 3. Main Translate Logic
+    function translatePage(lang) {
+      // Logic for Hebrew (Reset)
+      if (lang === "he") {
+        const combo = document.querySelector(".goog-te-combo");
+        if (combo && combo.value !== "he" && combo.value !== "iw") {
+            // Attempt to switch back to Hebrew/Auto via Google
+            combo.value = "iw"; // Google uses 'iw' for Hebrew often
+            combo.dispatchEvent(new Event("change"));
+        }
+        document.documentElement.lang = "he";
+        document.documentElement.dir = "rtl";
+        state.lang = "he";
+        saveState();
+        applyManualTranslations("he");
+        // Force reload if we want to clear artifacts perfectly, but trying simple way first
         return;
       }
-      if (targetLang === "auto") {
-        combo.selectedIndex = 0;
-      } else {
-        // convert he to iw if present
-        const val = (targetLang === "he") ? "iw" : targetLang;
-        combo.value = val;
+
+      // Logic for Foreign Languages
+      if (!gtReady) {
+        loadGoogleTranslateOnce();
+        setTimeout(() => translatePage(lang), 600);
+        return;
       }
-      combo.dispatchEvent(new Event('change'));
-      announce("Translating page...");
-      // Wait a bit and then announce complete
-      setTimeout(() => announce("תרגום הושלם (או בחן את התוצאה)"), 1600);
+
+      const combo = document.querySelector(".goog-te-combo");
+      if (!combo) {
+          // Retry if script loaded but DOM not fully ready
+          setTimeout(() => translatePage(lang), 300);
+          return;
+      }
+
+      // Set Google Translate value
+      combo.value = lang;
+      combo.dispatchEvent(new Event("change"));
+
+      // Update Page Attributes
+      document.documentElement.lang = lang;
+      document.documentElement.dir = (lang === "ar") ? "rtl" : "ltr";
+      state.lang = lang;
+      saveState();
+
+      // Apply Manual Translations (Wait briefly for GT to render, then override)
+      setTimeout(() => {
+        applyManualTranslations(lang);
+      }, 1000); 
+      // Reinforce again later in case network was slow
+      setTimeout(() => {
+        applyManualTranslations(lang);
+      }, 3000);
+    }
+
+    // 4. Apply Manual Dictionary
+    function applyManualTranslations(lang) {
+      // Find all elements with data-i18n attribute
+      const elements = document.querySelectorAll("[data-i18n]");
+      elements.forEach(el => {
+        const key = el.getAttribute("data-i18n");
+        if (I18N_DICT[key]) {
+           // Get translation or fallback to Hebrew
+           let txt = I18N_DICT[key][lang] || I18N_DICT[key]["he"];
+           // If English is requested but not found, check if exists in dict, else leave as is
+           if (txt) {
+             // For input/placeholder
+             if (el.tagName === "INPUT" || el.tagName === "TEXTAREA") {
+               el.placeholder = txt;
+             } else {
+               // Normal text
+               el.innerText = txt;
+             }
+             // Mark as manually translated to prevent GT from overwriting (optional technique)
+             el.classList.add("notranslate"); 
+           }
+        }
+      });
     }
 
     /* ---------------- TTS ---------------- */
-    let synth = window.speechSynthesis;
+    // TTS should read the content *after* translation
     function startTTS() {
-      if (!synth) { announce("TTS not supported"); return; }
-      synth.cancel();
-      const sel = window.getSelection();
-      const text = sel && !sel.isCollapsed ? sel.toString().trim() : extractReadableText();
-      if (!text) { announce("אין טקסט לקרוא"); return; }
-      const utt = new SpeechSynthesisUtterance(text);
-      utt.lang = document.documentElement.lang || state.lang || "he";
-      synth.speak(utt);
-      announce("Reading started");
+    if (window.speechSynthesis.speaking) {
+        window.speechSynthesis.resume();
+        return;
     }
+    // שליפת הטקסט מהדף (ניקוי תפריט הנגישות מההקראה)
+    const textContent = document.body.innerText.replace(/נגישות[\s\S]*⏹/g, "");
+    const utterance = new SpeechSynthesisUtterance(textContent);
+    // זיהוי השפה הנבחרת מה-Select
+    const selectedLang = document.getElementById("acc-lang").value;
+    // מיפוי קודי שפה של גוגל לקודי שפה של TTS דפדפן
+    const langMap = {
+        "he": "he-IL",
+        "en": "en-US",
+        "ru": "ru-RU",
+        "fr": "fr-FR",
+        "es": "es-ES",
+        "de": "de-DE",
+        "ar": "ar-SA"
+    };
+    utterance.lang = langMap[selectedLang] || selectedLang;
+    // אופציונלי: התאמת קצב דיבור
+    utterance.rate = 1.0; 
+    window.speechSynthesis.speak(utterance);
+} 
+
     function pauseResumeTTS() {
-      if (!synth) return;
-      if (synth.speaking && !synth.paused) { synth.pause(); announce("TTS paused"); }
-      else if (synth.paused) { synth.resume(); announce("TTS resumed"); }
+       if (window.speechSynthesis.paused) window.speechSynthesis.resume();
+       else window.speechSynthesis.pause();
     }
-    function stopTTS() { if (!synth) return; synth.cancel(); announce("TTS stopped"); }
-    function extractReadableText() {
-      const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
-        acceptNode(node) {
-          if (!node.parentElement) return NodeFilter.FILTER_REJECT;
-          if (node.parentElement.closest("#accessibility-root")) return NodeFilter.FILTER_REJECT;
-          const tag = node.parentElement.tagName.toLowerCase();
-          if (["script","style","noscript","svg","iframe","textarea"].includes(tag)) return NodeFilter.FILTER_REJECT;
-          if (!node.textContent || node.textContent.trim().length < 3) return NodeFilter.FILTER_REJECT;
-          if (node.parentElement.closest("nav, footer")) return NodeFilter.FILTER_REJECT;
-          return NodeFilter.FILTER_ACCEPT;
-        }
-      });
-      let n, out = "";
-      while (n = walker.nextNode()) out += n.textContent.trim() + " ";
-      return out.trim();
+
+    function stopTTS() {
+      window.speechSynthesis.cancel();
     }
+
 
     /* ---------------- panel control ---------------- */
     function togglePanel() {
@@ -403,39 +483,30 @@ function togglePauseAnimations(el) {
 
     /* ---------------- Reset ---------------- */
     function doReset() {
-      // restore px sizes from data attribute
       document.querySelectorAll("[data-acc-orig-fontsize]").forEach(n => {
         const orig = n.getAttribute("data-acc-orig-fontsize");
         if (orig) n.style.fontSize = orig + "px";
         else n.style.fontSize = "";
         n.removeAttribute("data-acc-orig-fontsize");
       });
-      // restore root font-size
       const html = document.documentElement;
       if (html.hasAttribute("data-acc-root-fontsize")) {
         html.style.fontSize = html.getAttribute("data-acc-root-fontsize") + "px";
         html.removeAttribute("data-acc-root-fontsize");
       } else html.style.fontSize = "";
 
-      // remove all classes & attributes added
       html.classList.remove("acc-dyslexic","acc-cursor-2x","acc-cursor-3x","acc-strong-focus","acc-dark-mode",
         "acc-highlight-links","acc-pause-animations","acc-line-spacing");
       document.body.classList.remove("acc-dyslexic","acc-dark-mode","acc-highlight-links");
       html.removeAttribute("data-sat");
 
-      // remove injected pause style
       const ps = document.getElementById("acc-pause-style"); if (ps) ps.remove();
 
-      // stop speech
       if (window.speechSynthesis) window.speechSynthesis.cancel();
 
-      // clear saved settings
       localStorage.removeItem(ACC_KEY);
 
-      // Attempt to remove google translate artifacts:
-      const gtFrame = document.querySelector('.goog-te-banner-frame');
-      // If translate used, reloading is the safest to fully clear translations and return to original DOM/css
-      announce("איפוס הושלם — הדף ייטען מחדש כדי להחזיר הכל למצב המקורי");
+      announce("איפוס הושלם — הדף ייטען מחדש");
       setTimeout(() => location.reload(), 700);
     }
 
@@ -470,7 +541,7 @@ function togglePauseAnimations(el) {
       }
       if (state.lineSpacing) document.documentElement.classList.add("acc-line-spacing");
       if (state.saturation && state.saturation !== "normal") document.documentElement.setAttribute("data-sat", state.saturation);
-      if (state.lang) { document.documentElement.lang = state.lang; document.documentElement.dir = (state.lang === "he" ? "rtl" : "ltr"); }
+      // Lang is handled in main via translatePage now
     }
 
     /* ---------------- announce to SR ---------------- */
@@ -482,24 +553,6 @@ function togglePauseAnimations(el) {
       }
       live.textContent = text;
       setTimeout(()=>{ if (live) live.textContent = ""; }, 1600);
-    }
-
-    /* ---------------- Utility: applyScaleToAll ---------------- */
-    function applyScaleToAll() {
-      const html = document.documentElement;
-      if (!html.hasAttribute("data-acc-root-fontsize")) {
-        const rootSize = parseFloat(getComputedStyle(html).fontSize) || 16;
-        html.setAttribute("data-acc-root-fontsize", rootSize.toString());
-      }
-      const rootOrig = parseFloat(html.getAttribute("data-acc-root-fontsize")) || parseFloat(getComputedStyle(html).fontSize) || 16;
-      html.style.fontSize = (rootOrig * state.scale) + "px";
-      document.querySelectorAll("[data-acc-orig-fontsize]").forEach(n => {
-        if (n.closest && n.closest("#accessibility-root")) return;
-        const orig = parseFloat(n.getAttribute("data-acc-orig-fontsize"));
-        if (!isNaN(orig)) n.style.fontSize = (orig * state.scale) + "px";
-      });
-      announce(`גודל טקסט: ${Math.round(state.scale*100)}%`);
-      saveState();
     }
 
     // helper to build markup string
@@ -528,14 +581,13 @@ function togglePauseAnimations(el) {
 
             <div class="acc-tile acc-row" style="align-items:center">
               <select id="acc-lang" aria-label="שפה" style="flex:1;padding:8px;border-radius:8px;">
-                <option value="he">בקרוב</option>
                 <option value="he">עברית</option>
                 <option value="en">English</option>
                 <option value="fr">Français</option>
                 <option value="es">Español</option>
                 <option value="de">Deutsch</option>
                 <option value="ar">العربية</option>
-                <option value="auto">Auto (Google)</option>
+                <option value="ru">Русский</option>
               </select>
               <button class="btn" id="acc-gt-btn" style="margin-left:8px;padding:8px;border-radius:8px;">תרגם</button>
             </div>

@@ -249,7 +249,7 @@ nav .hamburger {
   left: 50%;
   transform: translateX(-50%);
   width: 95%;
-  max-width: 700px;
+  max-width: 600px;
   max-height: fit-content;
   background: #fff;
   border-radius: 24px;

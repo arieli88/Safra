@@ -49,6 +49,7 @@ h1 {
 
 .lecturer-card {
     max-width: 270px;
+    max-height: 250px;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -100,7 +101,8 @@ h1 {
 
 .lecturer-card img {
     width: 100%;
-    height: 350px;
+    /* height: 350px; */
+    height: 100%;
     object-fit: cover;
     border-radius: 60% / 55%;
     margin-bottom: 12px;
@@ -262,6 +264,7 @@ h1 {
     .lecturer-card {
         box-shadow: 0 4px 14px rgba(0,0,0,0.08);
         background: transparent; /* הרקע הלבן מגיע מה-::after */
+        max-height: none;
     }
 }
 
@@ -274,7 +277,7 @@ h1 {
     }
 
     .lecturer-card img {
-        width: 50%;
+        width: 42%;
     }
 
     .lecturer-info {
