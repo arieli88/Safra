@@ -144,6 +144,9 @@ h1 {
 .lecturer-info .Shiur,
 .lecturer-info .bio {
     margin-bottom: 5px;
+    font-size: clamp(12px, 1.4vw, 16px);
+    line-height: 1.4;
+    word-break: break-word;
 }
 
 .section-divider {
